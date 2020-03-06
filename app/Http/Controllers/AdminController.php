@@ -34,7 +34,7 @@ class AdminController extends Controller
     }
     public function users()
     {
-        $users = User::orderByDesc('id')->paginate(1);
+        $users = User::orderByDesc('id')->paginate(30);
         return view('admin.uyeler', ['users' => $users]);
     }
 }
