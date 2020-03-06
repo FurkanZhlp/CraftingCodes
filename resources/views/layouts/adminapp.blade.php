@@ -5,8 +5,8 @@
     <title>@yield('title') - {{\App\Options::value('title')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
-    <meta content="Mannatthemes" name="author" />
-
+    <meta content="Green,CraftingCodes" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ url('admin/assets/images/favicon.ico') }}">
 
@@ -17,6 +17,8 @@
     <link href="{{ url('admin/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('admin/assets/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('admin/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="{{ url('admin/assets/js/jquery.min.js') }}"></script>
 
 </head>
 
@@ -77,10 +79,10 @@
                 <a href="{{route('admin')}}"><i class="ti-palette"></i><span>Arayüz</span></a>
             </li>
             <li>
-                <a href="{{route('admin.products')}}"><i class="ti-palette"></i><span>Ürünler</span></a>
+                <a href="{{route('admin.products')}}"><i class="ti-files"></i><span>Ürünler</span></a>
             </li>
             <li>
-                <a href="{{route('admin.users')}}"><i class="ti-palette"></i><span>Üyeler</span></a>
+                <a href="{{route('admin.users')}}"><i class="ti-user"></i><span>Üyeler</span></a>
             </li>
             <li>
                 <a href="javascript: void(0);"><i class="ti-bar-chart"></i><span>Analytics</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
@@ -109,7 +111,6 @@
 <!-- end page-wrapper -->
 
 <!-- jQuery  -->
-<script src="{{ url('admin/assets/js/jquery.min.js') }}"></script>
 <script src="{{ url('admin/assets/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url('admin/assets/js/metisMenu.min.js') }}"></script>
 <script src="{{ url('admin/assets/js/waves.min.js') }}"></script>

@@ -43,3 +43,9 @@ Route::get('/admin/anasayfa', 'AdminController@index')->name('admin');
 Route::get('/admin/uye/{id}', 'AdminController@uye')->name('admin.user');
 Route::get('/admin/uyeler', 'AdminController@users')->name('admin.users');
 Route::get('/admin/urunler', 'AdminController@products')->name('admin.products');
+
+//Ajax
+Route::prefix('admin/ajax')->group(function () {
+    Route::get('user/delete', 'AjaxController@deleteUser');
+    Route::post('user/delete', 'AjaxController@deleteUser');
+});

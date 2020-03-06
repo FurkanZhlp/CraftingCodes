@@ -30,7 +30,8 @@ class AdminController extends Controller
     }
     public function products()
     {
-        return view('admin.urunler');
+        $products = \App\Product::orderByDesc('id')->paginate(30);
+        return view('admin.urunler', ['products' => $products]);
     }
     public function users()
     {

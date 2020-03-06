@@ -19,7 +19,7 @@ class UserIsAdmin
         if ($request->user()->role == "0")
         {
             return redirect('/panel');
-            die('yetkisiz rol');
+            die(json_encode(["status"=>false,"message"=>"Yetkisiz Rol"]));
         }
 
         return $next($request);

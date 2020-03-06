@@ -17,12 +17,12 @@
             <div class="col-lg-3">
                 <div class="card card-eco">
                     <div class="card-body">
-                        <h4 class="title-text mt-0">New Orders</h4>
+                        <h4 class="title-text mt-0">Ürünler</h4>
                         <div class="d-flex justify-content-between">
-                            <h3 class="text-pink">10k</h3>
+                            <h3 class="text-pink">{{\App\Product::all()->count()}}</h3>
                             <i class="dripicons-cart card-eco-icon bg-icon-pink align-self-center"></i>
                         </div>
-                        <p class="mb-0 text-muted text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>1.5%</span> Up From Last Week</p>
+                        <p class="mb-0 text-muted text-truncate"><span class="text-success">{{\App\Product::where( DB::raw('MONTH(created_at)'), '=', date('n') )->get()->count()}}</span> bu ay oluşturulan</p>
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div><!--end col-->
