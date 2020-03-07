@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('price');
+            $table->string('download');
             $table->longText('desc');
             $table->string('slug');
             $table->timestamps();

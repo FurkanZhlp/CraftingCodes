@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+
+        DB::table('options')->insert([
+            "id"=>1,
+            "title"=>"CraftingCodes",
+            "meta_desc"=>"Hayallerinizi Kodlara Döküyoruz..",
+            "meta_tags"=>"Minecraft,Kod,Website,Webscript,satış,ücretsiz,ucuz",
+            "logo_url"=>""
+        ]);
     }
 }

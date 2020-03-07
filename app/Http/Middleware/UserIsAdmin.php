@@ -14,9 +14,10 @@ class UserIsAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if ($request->user()->role == "0")
+        if(!Auth::guard($guard)->check()) return redirect('/');
+        if (Auth::user()->role != "1")
         {
             return redirect('/panel');
             die(json_encode(["status"=>false,"message"=>"Yetkisiz Rol"]));

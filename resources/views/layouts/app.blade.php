@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('panel')}}">{{Auth::user()->email}}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Ürünlerim</a>
+                    </li>
                     @if(Auth::user()->role > 0)
                     <li class="nav-item">
                         <a class="nav-link" style="color:red;" href="{{route('admin')}}">Yönetici Paneli</a>

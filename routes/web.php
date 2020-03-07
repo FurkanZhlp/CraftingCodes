@@ -11,20 +11,28 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/panel', 'UserController@index')->name('panel');
+
+
+Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function(){
+    Route::get('anasayfa', 'adminController@index')->name('admin');
+    Route::prefix('uyeler')->group(function () {
+        Route::get('list', 'admin\UserController@index')->name('admin.users');
+        Route::get('edit/{id}', 'admin\UserController@edit')->name('admin.user');
+        Route::post('new', 'admin\UserController@new')->name('admin.newUser');
+        Route::post('delete', 'admin\UserController@delete')->name('admin.deleteUser');
+    });
+    Route::get('urunler', 'AdminController@products')->name('admin.products');
 });
+
 
 // Authentication Routes...
 Route::get('girisyap', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('girisyap', 'Auth\LoginController@login');
 Route::get('cikisyap', 'Auth\LoginController@logout')->name('logout');
-
-// Registration Routes...
 Route::get('kayitol', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('kayitol', 'Auth\RegisterController@register');
-
-// Password Reset Routes...
 Route::get('sifre/sifirla', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('sifre/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('sifre/guncelle/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -35,17 +43,3 @@ Route::get('email/verify', 'Auth\VerificationController@show')->name('verificati
 Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify'); // v6.x
 /* Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify'); // v5.x */
 Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
-
-Route::get('/anasayfa', 'HomeController@index')->name('home');
-Route::get('/panel', 'UserController@index')->name('panel');
-
-Route::get('/admin/anasayfa', 'AdminController@index')->name('admin');
-Route::get('/admin/uye/{id}', 'AdminController@uye')->name('admin.user');
-Route::get('/admin/uyeler', 'AdminController@users')->name('admin.users');
-Route::get('/admin/urunler', 'AdminController@products')->name('admin.products');
-
-//Ajax
-Route::prefix('admin/ajax')->group(function () {
-    Route::get('user/delete', 'AjaxController@deleteUser');
-    Route::post('user/delete', 'AjaxController@deleteUser');
-});
