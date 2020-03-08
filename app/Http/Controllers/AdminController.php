@@ -13,9 +13,4 @@ class AdminController extends Controller
         $option=Options::first();
         return view("admin.anasayfa");
     }
-    public function products()
-    {
-        $products = \App\Product::orderByDesc('id')->paginate(30);
-        return view('admin.urunler', ['products' => $products]);
-    }
 }

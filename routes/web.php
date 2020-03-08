@@ -23,7 +23,11 @@ Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function(){
         Route::post('new', 'admin\UserController@new')->name('admin.newUser');
         Route::post('delete', 'admin\UserController@delete')->name('admin.deleteUser');
     });
-    Route::get('urunler', 'AdminController@products')->name('admin.products');
+    Route::prefix('urunler')->group(function () {
+        Route::get('list', 'admin\ProductController@index')->name('admin.products');
+        Route::get('new', 'admin\ProductController@new')->name('admin.newProduct');
+        Route::get('edit', 'admin\ProductController@index')->name('admin.product');
+    });
 });
 
 

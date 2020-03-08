@@ -22,14 +22,14 @@
 
                             <tbody>
                             @foreach($users as  $user)
-                                <tr id="user{{$user->email}}">
+                                <tr id="user{{$user->id}}">
                                     <th>{{$user->id}}</th>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->created_at}}</td>
                                     <td>
                                         <a href="{{route('admin.user',$user->id)}}" class=" mr-2"><i class="fas fa-edit text-info font-16"></i></a>
-                                        <a href="#" onclick="userDelete('{{$user->email}}')"><i class="fas fa-trash-alt text-danger font-16"></i></a>
+                                        <a href="#" onclick="userDelete('{{$user->id}}')"><i class="fas fa-trash-alt text-danger font-16"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -122,21 +122,6 @@
                     });
                     $(".newButton").prop('disabled', false);
                     $(".newButton").html("+ Ekle");
-                    /*if(data.status == true)
-                    {
-                        swal.fire({
-                            icon: 'success',
-                            text: data.message
-                        });
-                        document.getElementById("user"+id).remove();
-                    }
-                    else
-                    {
-                        swal.fire({
-                            icon: 'error',
-                            text: data.message
-                        });
-                    }*/
                 }
             });
         };

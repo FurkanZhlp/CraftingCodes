@@ -17,8 +17,10 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('price');
-            $table->string('download');
-            $table->longText('desc');
+            $table->string('download')->nullable();
+            $table->integer('ownerid');
+            $table->string('image');
+            $table->longText('desc')->nullable();
             $table->string('slug');
             $table->timestamps();
         });
