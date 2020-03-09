@@ -21,12 +21,13 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <div class="text-center pb-2 mb-2 border-bottom">
+                            <img style="width:64px;height:64px;" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title="">
+                            <h6 class="mt-0">{{$product->name}}</h6>
+                        </div>
                         <h6 class="mt-0">Toplam {{$product->download}} kez indirildi</h6>
                         <div class="progress mb-4" style="height: 5px;">
                             <div class="progress-bar bg-success" role="progressbar" style="width: {{$product->download}}%;" aria-valuenow="{{$product->download}}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="text-center">
-                        <img style="width:64px;height:64px;" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title="">
                         </div>
                         @foreach($product->versions as $version)
                             <div class="text-muted">
@@ -76,7 +77,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Yeni Kayıt Ekle</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Yeni Sürüm Ekle</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
