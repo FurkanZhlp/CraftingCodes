@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function(){
     Route::prefix('urunler')->group(function () {
         Route::get('list', 'admin\ProductController@index')->name('admin.products');
         Route::get('new', 'admin\ProductController@new')->name('admin.newProduct');
+        Route::post('new', 'admin\ProductController@new');
+        Route::get('verisons/{slug}', 'admin\ProductController@versions')->name('admin.vProduct');
+        Route::post('verisons/{slug}', 'admin\ProductController@versions');
         Route::get('edit', 'admin\ProductController@index')->name('admin.product');
     });
 });

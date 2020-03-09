@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('price');
-            $table->string('download')->nullable();
+            $table->integer('download')->nullable()->default(0);
             $table->integer('ownerid');
             $table->string('image');
             $table->longText('desc')->nullable();
