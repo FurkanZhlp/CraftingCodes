@@ -15,9 +15,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/panel', 'UserController@index')->name('panel');
 
 
-Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function(){
+Route::group(['prefix' => 'admin',  'middleware' => 'role'], function(){
     Route::get('anasayfa', 'adminController@index')->name('admin');
-    Route::prefix('uyeler')->group(function () {
+    Route::group(['prefix' => 'uyeler',  'middleware' => 'admin'], function(){
         Route::get('list', 'admin\UserController@index')->name('admin.users');
         Route::get('edit/{id}', 'admin\UserController@edit')->name('admin.user');
         Route::post('new', 'admin\UserController@new')->name('admin.newUser');
@@ -29,7 +29,8 @@ Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function(){
         Route::post('new', 'admin\ProductController@new');
         Route::get('verisons/{slug}', 'admin\ProductController@versions')->name('admin.vProduct');
         Route::post('verisons/{slug}', 'admin\ProductController@versions');
-        Route::get('edit', 'admin\ProductController@index')->name('admin.product');
+        Route::get('edit/{slug}', 'admin\ProductController@edit')->name('admin.product');
+        Route::post('edit/{slug}', 'admin\ProductController@edit');
     });
 });
 

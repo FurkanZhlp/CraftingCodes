@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class UserIsAdmin
+class UserIsSeller
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,9 @@ class UserIsAdmin
     public function handle($request, Closure $next, $guard = null)
     {
         if(!Auth::guard($guard)->check()) return redirect('/');
-        if (Auth::user()->admin != "1")
+        if(Auth::user()->role != "1" && Auth::user()->admin == "0")
         {
-            return redirect(route('admin'));
+            return redirect('/panel');
             die(json_encode(["status"=>false,"message"=>"Yetkisiz Rol"]));
         }
 

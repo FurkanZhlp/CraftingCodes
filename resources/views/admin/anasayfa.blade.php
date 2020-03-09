@@ -19,23 +19,22 @@
                     <div class="card-body">
                         <h4 class="title-text mt-0"><a href="{{route('admin.products')}}">Ürünler</a></h4>
                         <div class="d-flex justify-content-between">
-                            <h3 class="text-pink">{{\App\Product::all()->count()}}</h3>
+                            <h3 class="text-pink">{{\App\Product::where('ownerid','=',Auth::user()->id)->count()}}</h3>
                             <i class="dripicons-cart card-eco-icon bg-icon-pink align-self-center"></i>
                         </div>
-                        <p class="mb-0 text-muted text-truncate"><span class="text-success">{{\App\Product::where( DB::raw('MONTH(created_at)'), '=', date('n') )->get()->count()}}</span> bu ay oluşturulan</p>
+                        <p class="mb-0 text-muted text-truncate"><span class="text-success">{{\App\Product::where( DB::raw('MONTH(created_at)'), '=', date('n') )->where('ownerid','=',Auth::user()->id)->get()->count()}}</span> bu ay oluşturulan</p>
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div><!--end col-->
             <div class="col-lg-3">
                 <div class="card card-eco">
                     <div class="card-body">
-                        <h4 class="title-text mt-0">Return Orders</h4>
+                        <h4 class="title-text mt-0">Ürün Sürümleri</h4>
                         <div class="d-flex justify-content-between">
-                            <h3 class="text-secondary">₺8400</h3>
+                            <h3 class="text-secondary">{{\App\ProductVersion::all()->count()}}</h3>
                             <i class="dripicons-jewel card-eco-icon bg-icon-secondary align-self-center"></i>
                         </div>
-                        <p class="mb-0 text-muted text-truncate">⠀
-                        </p>
+                        <p class="mb-0 text-muted text-truncate"><span class="text-success">{{\App\ProductVersion::where( DB::raw('MONTH(created_at)'), '=', date('n') )->get()->count()}}</span> bu ay çıkan</p>
                     </div><!--end card-body-->
                 </div><!--end card-->
             </div><!--end col-->

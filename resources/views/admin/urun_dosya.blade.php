@@ -57,11 +57,11 @@
                                     </a>
                                     <div class="text-center">
                                         <i class="far fa-file-archive text-warning"></i>
-                                        <h6 class="text-truncate">{{$version->file}}</h6>
+                                        <h6 class="text-truncate">{{$version->version}}</h6>
                                         <small class="text-muted">{{$version->formatSize()}}</small><br>
                                         <small class="text-muted">{{$version->created_at}}</small>
                                         <div class="custom-control custom-switch switch-success">
-                                            <input type="checkbox" onchange="changeStatus('{{$version->id}}')" class="custom-control-input" id="customSwitchSuccess{{$version->id}}" @if($version->status) checked @endif>
+                                            <input type="checkbox" onchange="changeStatus('{{$version->id}}')" class="custom-control-input" disabled id="customSwitchSuccess{{$version->id}}" @if($version->status) checked @endif>
                                             <label class="custom-control-label" for="customSwitchSuccess{{$version->id}}">Durumu</label>
                                         </div>
                                     </div>

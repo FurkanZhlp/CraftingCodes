@@ -17,8 +17,8 @@
                                 <th>Ürün Adı</th>
                                 <th>Fiyatı</th>
                                 <th>Sahibi</th>
+                                <th>Durumu</th>
                                 <th>Oluşturulma Tarihi</th>
-                                <th>Güncellenme Tarihi</th>
                                 <th class="text-right">İşlem</th>
                             </tr><!--end tr-->
                             </thead>
@@ -26,17 +26,19 @@
                             <tbody>
                             @foreach($products as  $product)
                                 <tr>
-                                    <th>{{$product->id}}</th>
+                                    <td>{{$product->id}}</td>
                                     <td><img style="width:64px;height:64px;" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title=""></td>
                                     <td>{{$product->name}}</td>
                                     <td>₺{{$product->price}}</td>
                                     <td><a href="{{route('admin.user',$product->owner->id)}}">{{$product->owner->email}}</a></td>
+                                    <td>{!!$product->statusFormat(true)!!}</td>
                                     <td>{{$product->created_at}}</td>
-                                    <td>{{$product->updated_at}}</td>
                                     <td class="text-right">
                                         <a href="{{route('admin.vProduct',$product->slug)}}" class="mr-2"><i class="fas fa-folder text-info font-16"></i></a>
-                                        <a href="{{route('admin.product',$product->id)}}" class="mr-2"><i class="fas fa-edit text-info font-16"></i></a>
+                                        <a href="{{route('admin.product',$product->slug)}}" class="mr-2"><i class="fas fa-edit text-info font-16"></i></a>
+                                        @if($product->status == 1)
                                         <a href="#"><i class="fas fa-trash-alt text-danger font-16"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

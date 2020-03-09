@@ -17,12 +17,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::orderByDesc('id')->paginate(15);
+        $products = Product::where('ownerid','=',Auth::user()->id)->orderByDesc('id')->paginate(15);
         return view('admin.urunler', ['products' => $products]);
     }
     public function versions($slug,Request $request)
     {
-        $product = Product::where('slug', '=', $slug)->first();
+        $product = Product::where('slug', '=', $slug)->where('ownerid','=',Auth::user()->id)->first();
         if($request->isMethod('GET')) {
             if (!$product) {
                 return redirect(route('admin.products'));
@@ -57,7 +57,7 @@ class ProductController extends Controller
             {
                 $file = $request->file('file');
                 $extension = $file->getClientOriginalExtension();
-                $save["file"] = str_slug($product->slug.'-'.$request->version,'_').'.'.$extension;
+                $save["file"] = str_slug($product->name.'-'.$request->version,'_').'.'.$extension;
                 $file->storeAs('public/versions',$save["file"]);
                 $save["version"] = $request->version;
                 $save["status"] = 1;
@@ -84,7 +84,7 @@ class ProductController extends Controller
                 'dimensions' => "Resim boyutu 240x240 olmalıdır"
             ];
             $validator = Validator::make($request->all(), [
-                "name" => "required|min:3|unique:products",
+                "name" => "required|min:3",
                 "price" => "required|numeric|min:3",
                 "desc" => "required|min:50",
                 "image" => "required|image|dimensions:max_width=240,max_height=240,min_width=240,min_height=240"
@@ -103,7 +103,7 @@ class ProductController extends Controller
                 $file->storeAs('public/products',$save["image"]);
 
                 $save["desc"]       = $request->desc;
-                $save["slug"]       = str_slug($request->name);
+                $save["slug"]       = str_slug($request->name).time();
                 Product::create($save);
                 return json_encode(['status'=>true,'slug'=>$save["slug"]]);
             }
@@ -113,33 +113,43 @@ class ProductController extends Controller
         {
             return view('admin.urun_ekle');
         }
-/*
+    }
+    public function edit($slug,Request $request)
+    {
+        if($request->isMethod('get'))
+        {
+            $product = Product::where('slug', '=', $slug)->where('ownerid','=',Auth::user()->id)->first();
+            if($product == null) return redirect(route('admin.products'));
+            $data["product"] = $product;
+            return view('admin.urun_duzenle')->with($data);
+        }
+        elseif($request->isMethod('post'))
+        {
 
             $messages = [
                 'required' => "Bu alan gereklidir.",
                 'max' => "Bu alan maksimum :max karakter olmalıdır.",
                 'min' => "Bu alan minimum :min karakter olmalıdır.",
-                'unique' => "Bu mail daha önceden alınmış.",
+                'unique' => "Böyle bir ürün zaten bulunmakta.",
                 'email' => "Email adresi geçersiz.",
-                'file' => "Bu bir rar dosyası olmalıdır",
-                'mimes' => "Dosya biçimi rar olmalıdır",
+                'file' => "Bu bir dosya türü olmalıdır",
+                'mimes' => "Dosya biçimi :mimes olmalıdır",
+                'image' => "Bu bir resim dosyası olmalıdır",
+                'dimensions' => "Resim boyutu 240x240 olmalıdır"
             ];
             $validator = Validator::make($request->all(), [
-                "name" => "required|min:3",
-                //"file" => "required|file|mimes:rar",
+                "name" => "required|min:3|unique:products",
+                "price" => "required|numeric|min:3",
+                "desc" => "required|min:50",
+                "image" => "required|image|dimensions:max_width=240,max_height=240,min_width=240,min_height=240"
+
             ],$messages);
             if($validator->passes())
             {
-                //return Storage::download('public/test.txt');
-               // $extension = "rar";
-                $file = $request->file('file');
-               // $destinationPath = 'uploads'; // upload path
-               // $name = $file->getClientOriginalName(); // getting original name
-               // $fileName = str_slug($request->name); // renaming image
-              //  $extension = $file->getClientOriginalExtension(); // getting fileextension
-              //  $file->storeAs('products',$fileName.time().'.'.$extension); // uploading file to given path
-              //  return "true";
+
             }
-            return json_encode(['errors'=>$validator->errors()]);*/
+            return json_encode(['errors'=>$validator->errors()]);
+
+        }
     }
 }

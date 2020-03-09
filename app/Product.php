@@ -21,4 +21,14 @@ class Product extends Model
     {
         return $this->image();
     }
+    public function statusFormat($formatted = false)
+    {
+        $status["value"] = ["Onay Bekliyor","Satışta","Satışa Kapalı"];
+        $status["formattedValue"] = [
+            '<span class="text-warning">Onay Bekliyor</span>',
+            '<span class="text-success">Satışta</span>',
+            '<span class="text-danger">Satışa Kapalı</span>'
+        ];
+        return ($formatted) ? $status["formattedValue"][$this->status] : $status["value"][$this->status];
+    }
 }

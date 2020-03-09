@@ -81,6 +81,7 @@
             <li>
                 <a href="{{route('admin.products')}}"><i class="ti-files"></i><span>Ürünler</span></a>
             </li>
+            @if(Auth::user()->admin)
             <li>
                 <a href="{{route('admin.users')}}"><i class="ti-user"></i><span>Üyeler</span></a>
             </li>
@@ -92,6 +93,7 @@
                     <li class="nav-item"><a class="nav-link" href="../analytics/analytics-reports.html"><i class="ti-control-record"></i>Reports</a></li>
                 </ul>
             </li>
+            @endif
         </ul>
     </div>
     <!-- end left-sidenav-->
