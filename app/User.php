@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role','admin','image','username'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','image'
     ];
 
     /**
@@ -36,4 +36,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function roleFormat()
+    {
+        $role = ["Üye","Satıcı"];
+        return $role[$this->role];
+    }
+    public function adminFormat()
+    {
+        $role = ["Üye","Admin"];
+        return $role[$this->admin];
+    }
+    public function userImage()
+    {
+        if($this->image != null) return url('/storage/users/'.$this->id.'.png');
+        return url('logo-sm.png');
+    }
+    public function username()
+    {
+        return '<a href="#">@'.$this->username.'</a>';
+    }
 }

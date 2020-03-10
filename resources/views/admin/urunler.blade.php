@@ -27,7 +27,7 @@
                             @foreach($products as  $product)
                                 <tr>
                                     <td>{{$product->id}}</td>
-                                    <td><img style="width:64px;height:64px;" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title=""></td>
+                                    <td><img style="width:64px;height:64px;" src="{{$product->image()}}" alt="{{$product->slug}}" title=""></td>
                                     <td>{{$product->name}}</td>
                                     <td>₺{{$product->price}}</td>
                                     <td><a href="{{route('admin.user',$product->owner->id)}}">{{$product->owner->email}}</a></td>

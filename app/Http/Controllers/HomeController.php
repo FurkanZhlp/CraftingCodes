@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -12,6 +13,7 @@ class HomeController extends Controller
     }
     public function index()
     {
-        return view('home');
+        $products = Product::where('status','!=','0')->orderByDesc('id')->take(4)->get();
+        return view('home', ['products' => $products]);
     }
 }

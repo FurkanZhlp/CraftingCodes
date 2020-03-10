@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class UserController extends Controller
@@ -15,7 +17,7 @@ class UserController extends Controller
         $users = User::orderByDesc('id')->paginate(15);
         return view('admin.uyeler', ['users' => $users]);
     }
-    public function edit($id)
+    public function edit($id ,Request $request)
     {
         $user = \App\User::find($id);
         if(!$user)
@@ -23,8 +25,24 @@ class UserController extends Controller
             return redirect(route('admin'));
             die;
         }
-        $data["user"] = $user;
-        return view("admin.uye")->with($data);
+        if($request->isMethod('get'))
+        {
+            $data["user"] = $user;
+            return view("admin.uye")->with($data);
+        }
+        elseif($request->isMethod('put'))
+        {
+            $data = $request->all();
+            $image = $data["image"];
+            $image_array_1 = explode(";", $image);
+            $image_array_2 = explode(",", $image_array_1[1]);
+            $image = base64_decode($image_array_2[1]);
+            $file_name = $id.".png";
+            Storage::put('public/users/'.$file_name, $image);
+            $user->image = 1;
+            $user->save();
+            return json_encode(['status'=>true]);
+        }
     }
     public function new(Request $request)
     {
@@ -36,9 +54,10 @@ class UserController extends Controller
             'email' => "Email adresi geçersiz.",
         ];
         $validator = Validator::make($request->all(), [
-            "name" => "required|string|max:24|min:2",
-            "email" => "required|string|email|max:50|unique:users",
-            "password" => "required|string|max:255|min:6"
+            'name' => ['required', 'string', 'max:255','min:2'],
+            'username' => ['required','string','max:12','min:3','regex:/^([a-zA-Z0-9]+)$/','unique:users'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
+            'password' => ['required', 'string', 'min:6'],
         ],$messages);
         if ($validator->passes())
         {

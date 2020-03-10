@@ -1,0 +1,17 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ProductCategory extends Model
+{
+
+    protected $fillable = [
+        'name', 'slug', 'parent_id'
+    ];
+    public function childs()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+}

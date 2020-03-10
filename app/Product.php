@@ -19,7 +19,7 @@ class Product extends Model
     }
     public  function image()
     {
-        return $this->image();
+        return url('/storage/products/'.$this->image);
     }
     public function statusFormat($formatted = false)
     {

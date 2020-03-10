@@ -58,7 +58,7 @@ class ProductController extends Controller
                 $file = $request->file('file');
                 $extension = $file->getClientOriginalExtension();
                 $save["file"] = str_slug($product->name.'-'.$request->version,'_').'.'.$extension;
-                $file->storeAs('public/versions',$save["file"]);
+                $file->storeAs('versions',$save["file"]);
                 $save["version"] = $request->version;
                 $save["status"] = 1;
                 $save["size"] = $file->getSize();
@@ -68,6 +68,29 @@ class ProductController extends Controller
             }
             return json_encode(['errors'=>$validator->errors()]);
         }
+    }
+    public function download($id)
+    {
+        $file = ProductVersion::where('id',$id)->first();
+        if (!$file) {
+            return redirect(route('admin.products'));
+            die;
+        }
+        $file->download += 1;
+        $file->save();
+        $product = Product::where('id',$file->product_id)->first();
+        if (!$product) {
+            return redirect(route('admin.products'));
+            die;
+        }
+        if($product->ownerid != Auth::user()->id)
+        {
+            return redirect(route('admin.products'));
+            die;
+        }
+        $product->download += 1;
+        $product->save();
+        return Storage::download('versions/'.$file->file);
     }
     public function new(Request $request)
     {

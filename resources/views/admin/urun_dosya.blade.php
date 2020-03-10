@@ -52,7 +52,7 @@
                             <div class="file-box-content">
                                 @foreach($product->versions as $version)
                                 <div class="file-box">
-                                    <a href="#" class="download-icon-link">
+                                    <a href="{{route('admin.downloadVersion',$version->id)}}" class="download-icon-link">
                                         <i class="dripicons-download file-download-icon"></i>
                                     </a>
                                     <div class="text-center">

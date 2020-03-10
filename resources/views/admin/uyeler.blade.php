@@ -14,7 +14,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Mail Adresi</th>
+                                <th>Kullanıcı Adı</th>
                                 <th>Adı Soyadı</th>
+                                <th>Rol,Admin</th>
                                 <th>Kayıt Tarihi</th>
                                 <th>İşlem</th>
                             </tr><!--end tr-->
@@ -25,7 +27,9 @@
                                 <tr id="user{{$user->id}}">
                                     <th>{{$user->id}}</th>
                                     <td>{{$user->email}}</td>
+                                    <td>{{$user->username}}</td>
                                     <td>{{$user->name}}</td>
+                                    <td>{{$user->roleFormat()}},{{$user->adminFormat()}}</td>
                                     <td>{{$user->created_at}}</td>
                                     <td>
                                         <a href="{{route('admin.user',$user->id)}}" class=" mr-2"><i class="fas fa-edit text-info font-16"></i></a>
@@ -93,15 +97,17 @@
         function newUser()
         {
             var name = $("input[name=name]").val();
+            var username = $("input[name=username]").val();
             var password = $("input[name=password]").val();
             var email = $("input[name=email]").val();
             $.ajax({
                 type:'POST',
                 dataType:'Json',
                 url:'{{route('admin.newUser')}}',
-                data:{name:name, password:password, email:email},
+                data:{name:name, password:password, email:email, username:username},
                 beforeSend:function(){
                     $("input[name=name]").removeClass('is-invalid');
+                    $("input[name=username]").removeClass('is-invalid');
                     $("input[name=password]").removeClass('is-invalid');
                     $("input[name=email]").removeClass('is-invalid');
                     $(".error-name").remove();
@@ -140,6 +146,10 @@
                         <div class="form-group">
                             <label for="setFullName">Adı Soyadı</label>
                             <input type="text" name="name" class="form-control" id="setFullName" placeholder="Adı Soyadı">
+                        </div>
+                        <div class="form-group">
+                            <label for="setFullName">Kullanıcı Adı</label>
+                            <input type="text" name="username" class="form-control" id="setUsername" placeholder="Kullanıcı Adı">
                         </div>
                         <div class="form-group">
                             <label for="setFullName">Mail Adresi</label>
