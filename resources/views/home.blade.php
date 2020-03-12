@@ -20,7 +20,7 @@
                 <div class="card e-co-product mcs-product-div">
                     <a href=""><img src="{{$product->image()}}" alt="" class="img-fluid"></a>
                     <div class="card-body product-info">
-                        <div style="height:43px;">
+                        <div style="max-height: 43px;height: 43px;overflow: hidden;">
                             <a class="product-title">{{$product->name}}</a>
                         </div>
                         <div>
@@ -28,7 +28,7 @@
                                 <img src="{{$product->owner->userImage()}}" alt="" class="thumb-sm rounded-circle mr-2">
                                 <div style="">
                                     <b>{{$product->owner->username}}</b>
-                                    <p style="margin-bottom:0px;">Test</p>
+                                    <p style="margin-bottom:0px;">{{$product->category->name}}</p>
                                 </div>
                             </div>
                         </div>

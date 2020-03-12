@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        "name","price","download","ownerid","image","desc","slug"
+        "name","price","download","ownerid","image","desc","slug","categoryid"
     ];
     public function owner()
     {
         return $this->hasOne('App\User','id','ownerid');
+    }
+    public function category()
+    {
+        return $this->hasOne('App\ProductCategory','id','categoryid');
     }
     public function versions()
     {

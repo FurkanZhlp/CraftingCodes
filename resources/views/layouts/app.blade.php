@@ -4,11 +4,19 @@
     <meta charset="utf-8" />
     <title>@yield('title') - {{\App\Options::value('title')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
+    <meta content="{{\App\Options::value('meta_desc')}}" name="description" />
     <meta content="Mannatthemes" name="author" />
-
+    @if(View::hasSection('social'))
+        @yield('social')
+    @else
+    <meta property="og:title" content="@yield('title') - {{\App\Options::value('title')}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{url()->current()}}" />
+    <meta property="og:image" content="{{url('logo-sm.png')}}" />
+    <meta property="og:description" content="{{\App\Options::value('meta_desc')}}" />
+    @endif
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{url('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{url('logo-sm.png')}}">
 
     <!-- App css -->
     <link href="{{url('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -92,7 +100,7 @@
                     <span class="ml-1 nav-user-name hidden-sm">{{Auth::user()->name}} <i class="mdi mdi-chevron-down"></i> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i class="dripicons-user text-muted mr-2"></i> Profil</a>
+                    <a class="dropdown-item" href="{{route('profile',Auth::user()->username)}}"><i class="dripicons-user text-muted mr-2"></i> Profil</a>
                     <a class="dropdown-item" href="#"><i class="dripicons-gear text-muted mr-2"></i> Ayarlarım</a>
                     <a class="dropdown-item text-danger" href="{{route('admin')}}"><i class="dripicons-lock text-muted mr-2"></i> Yönetim Paneli</a>
                     <div class="dropdown-divider"></div>
@@ -174,7 +182,9 @@
     <!-- end page content -->
     <footer class="footer text-center text-sm-left">
         <div class="boxed-footer container">
-            &copy; {{date("Y")}} MCSepeti.com <span class="text-muted d-none d-sm-inline-block float-right">Crafted with <i class="mdi mdi-heart text-danger"></i> by Green</span>
+            &copy; {{date("Y")}} MCSepeti.com -
+            <span class="text-muted">MCSepeti.com <a href="#">xxx.com</a> sunucularında barınmaktadır.</span>
+            <span class="text-muted d-none d-sm-inline-block float-right">Crafted with <i class="mdi mdi-heart text-danger"></i> by Green</span>
         </div>
     </footer><!--end footer-->
 </div>

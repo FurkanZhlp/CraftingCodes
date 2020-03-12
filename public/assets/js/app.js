@@ -4,7 +4,9 @@
  * Module/App: Main Js
  */
 
-
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
 (function ($) {
 
     'use strict';
@@ -21,7 +23,7 @@
         });
     }
 
-   
+
     function initEnlarge() {
         if ($(window).width() < 1025) {
             $('body').addClass('enlarge-menu');
@@ -58,7 +60,7 @@
             }
         });
     }
-    
+
 
     function init() {
         initSlimscroll();

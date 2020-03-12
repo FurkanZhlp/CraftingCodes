@@ -19,7 +19,7 @@ class UserIsSeller
         if(!Auth::guard($guard)->check()) return redirect('/');
         if(Auth::user()->role != "1" && Auth::user()->admin == "0")
         {
-            return redirect('/panel');
+            return redirect('/');
             die(json_encode(["status"=>false,"message"=>"Yetkisiz Rol"]));
         }
 

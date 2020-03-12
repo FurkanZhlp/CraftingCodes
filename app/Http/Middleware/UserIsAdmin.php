@@ -19,7 +19,7 @@ class UserIsAdmin
         if(!Auth::guard($guard)->check()) return redirect('/');
         if (Auth::user()->admin != "1")
         {
-            return redirect(route('admin'));
+            return redirect('/');
             die(json_encode(["status"=>false,"message"=>"Yetkisiz Rol"]));
         }
 

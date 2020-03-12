@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->integer('role')->default(0);
             $table->integer('admin')->default(0);
             $table->boolean('image')->default(0);
+            $table->string('last_seen')->nullable();
+            $table->integer('profile_view')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

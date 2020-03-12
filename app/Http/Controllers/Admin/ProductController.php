@@ -104,29 +104,37 @@ class ProductController extends Controller
                 'file' => "Bu bir dosya türü olmalıdır",
                 'mimes' => "Dosya biçimi :mimes olmalıdır",
                 'image' => "Bu bir resim dosyası olmalıdır",
-                'dimensions' => "Resim boyutu 240x240 olmalıdır"
+                'dimensions' => "Resim boyutu 240x240 olmalıdır",
+                'numeric' => "Bu alan doğru olmalıdır.",
+                'categoryid.numeric' => "Bu alan seçilmelidir.",
+                'exists' => "Geçerli bir kategori seçmelisiniz",
             ];
             $validator = Validator::make($request->all(), [
-                "name" => "required|min:3",
-                "price" => "required|numeric|min:3",
-                "desc" => "required|min:50",
-                "image" => "required|image|dimensions:max_width=240,max_height=240,min_width=240,min_height=240"
-
+                "name" => "required|min:3|max:50",
+                "categoryid" => "required|exists:product_categories,id",
+                "price" => "required|numeric|min:5|max:999",
+                "desc" => "required|min:100|max:5000",
+                "image" => "required|image"
             ],$messages);
             if($validator->passes())
             {
+                $data = $request->all();
                 $save["name"]       = $request->name;
                 $save["price"]      = $request->price;
+                $save["categoryid"] = $request->categoryid;
                 $save["download"]   = 0;
                 $save["ownerid"]    = auth()->user()->id;
-
-                $file = $request->file('image');
-                $extension = $file->getClientOriginalExtension();
-                $save["image"] = str_slug($request->name).'.'.$extension;
-                $file->storeAs('public/products',$save["image"]);
-
-                $save["desc"]       = $request->desc;
+                $save["desc"]       = nl2br($request->desc);
                 $save["slug"]       = str_slug($request->name).time();
+                $save["image"]      = str_slug($request->name).time().'.png';
+
+                $image = $data["imagecrop"];
+                $image_array_1 = explode(";", $image);
+                $image_array_2 = explode(",", $image_array_1[1]);
+                $image = base64_decode($image_array_2[1]);
+                $file_name = $save["slug"].".png";
+                Storage::put('public/products/'.$file_name, $image);
+
                 Product::create($save);
                 return json_encode(['status'=>true,'slug'=>$save["slug"]]);
             }
@@ -161,15 +169,15 @@ class ProductController extends Controller
                 'dimensions' => "Resim boyutu 240x240 olmalıdır"
             ];
             $validator = Validator::make($request->all(), [
-                "name" => "required|min:3|unique:products",
+                "name" => "required|min:3",
                 "price" => "required|numeric|min:3",
                 "desc" => "required|min:50",
-                "image" => "required|image|dimensions:max_width=240,max_height=240,min_width=240,min_height=240"
+                "image" => "required|image"
 
             ],$messages);
             if($validator->passes())
             {
-
+                json_encode(['status'=>true]);
             }
             return json_encode(['errors'=>$validator->errors()]);
 

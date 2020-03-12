@@ -16,7 +16,7 @@
                                 <th></th>
                                 <th>Ürün Adı</th>
                                 <th>Fiyatı</th>
-                                <th>Sahibi</th>
+                                <th>Kategori</th>
                                 <th>Durumu</th>
                                 <th>Oluşturulma Tarihi</th>
                                 <th class="text-right">İşlem</th>
@@ -27,10 +27,10 @@
                             @foreach($products as  $product)
                                 <tr>
                                     <td>{{$product->id}}</td>
-                                    <td><img style="width:64px;height:64px;" src="{{$product->image()}}" alt="{{$product->slug}}" title=""></td>
+                                    <td><img style="width:64px;" src="{{$product->image()}}" alt="{{$product->slug}}" title=""></td>
                                     <td>{{$product->name}}</td>
                                     <td>₺{{$product->price}}</td>
-                                    <td><a href="{{route('admin.user',$product->owner->id)}}">{{$product->owner->email}}</a></td>
+                                    <td>{{$product->category->name}}</td>
                                     <td>{!!$product->statusFormat(true)!!}</td>
                                     <td>{{$product->created_at}}</td>
                                     <td class="text-right">

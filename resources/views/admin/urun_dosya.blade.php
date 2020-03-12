@@ -3,6 +3,7 @@
 @section('content')
         <div class="row">
             <div class="col-lg-3">
+                @if($product->status != 2)
                 <div class="card">
                     <div class="card-body">
                         <div class="files-nav">
@@ -18,12 +19,12 @@
                         </div>
                     </div><!--end card-body-->
                 </div><!--end card-->
-
+                @endif
                 <div class="card">
                     <div class="card-body">
                         <div class="text-center pb-2 mb-2 border-bottom">
-                            <img style="width:64px;height:64px;" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title="">
-                            <h6 class="mt-0">{{$product->name}}</h6>
+                            <img style="width:200px;border-radius: 5px;" class="img-responsive mb-2" src="{{ url('/storage/products/'.$product->image) }}" alt="{{$product->slug}}" title="">
+                            <h4>{{$product->name}}</h4>
                         </div>
                         <h6 class="mt-0">Toplam {{$product->download}} kez indirildi</h6>
                         <div class="progress mb-4" style="height: 5px;">
@@ -39,6 +40,16 @@
             </div><!--end col-->
 
             <div class="col-lg-9">
+                @if($product->status == 0)
+                    <div class="alert alert-warning">
+                        Ürününüz henüz onay sürecindedir.
+                    </div>
+                @endif
+                @if($product->status == 2)
+                    <div class="alert alert-danger">
+                        Ürününüz satıştan kaldırılmıştır.
+                    </div>
+                @endif
                 <div class="">
                     <div class="tab-content" id="files-tabContent">
                         <div class="tab-pane fade show active" id="files-projects">
@@ -73,6 +84,7 @@
                 </div><!--end card-body-->
             </div><!--end col-->
         </div><!--end row-->
+        @if($product->status != 2)
         <div class="modal fade" id="new" tabindex="-1" role="dialog" aria-labelledby="new" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -143,4 +155,5 @@
                 });
             });
         </script>
+        @endif
 @endsection

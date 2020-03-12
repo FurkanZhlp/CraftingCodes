@@ -32,27 +32,96 @@
         </div><!--end row-->
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
                         <form>
-                            <div class="form-group">
-                                <label for="setFullName">Adı Soyadı</label>
-                                <input type="text" class="form-control" id="setFullName" placeholder="Adı Soyadı" value="{{$user->name}}">
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label for="setEmail">Mail Adresi</label>
-                                <input type="email" class="form-control" id="setEmail" placeholder="Mail Adresi" value="{{$user->email}}">
-                            </div><!--end form-group-->
-                            <div class="form-group">
-                                <label for="setPassword">Password</label>
-                                <input type="password" class="form-control" id="setPassword" placeholder="Password">
-                            </div><!--end form-group-->
-                            <button type="submit" class="btn btn-gradient-secondary btn-sm">Save Change</button>
-                        </form> <!--end form-->
-                    </div><!--end card-body-->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="setFullName">Adınız Soyadınız</label>
+                                        <input type="text" class="form-control" onchange="showButtonUser();" value="Özhalep" id="setFullName" placeholder="Soyadınızı Giriniz">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="setEmail">Mail Adresiniz</label>
+                                        <input type="email" class="form-control" onchange="showButtonUser();" value="furkanzhlp@hotmail.com" placeholder="Mail Adresinizi Giriniz" disabled="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setPassword">Password</label>
+                                        <input type="password" class="form-control" onchange="showButtonUser();" id="setPassword" placeholder="Password">
+                                    </div>
+                                    <button type="submit" id="set-btn" style="visibility:hidden;" class="btn btn-secondary btn-sm">Değişiklikleri Kaydet</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="setEmail">Telefon Numaranız</label>
+                                        <input type="phone" class="form-control" onchange="showButtonUser();" id="setEmail" placeholder="Telefon Numaranızı Giriniz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setPassword">Password</label>
+                                        <input type="password" class="form-control" onchange="showButtonUser();" id="setPassword2" placeholder="Password2">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function showButton()
+                {
+                    document.getElementById("notify-btn").style.visibility = "visible";
+                }
+
+                function submitNotifyForm()
+                {
+                    var data = $("#notify-form").serialize();
+
+                    $.ajax({
+
+                        type : 'POST',
+                        url  : 'https://mcsepeti.com/ajax/updateNotify.php',
+                        dataType: 'json',
+                        data : data,
+                        beforeSend: function()
+                        {
+                            $("#notify-btn").html("Lütfen bekleyiniz..");
+                            $("#notify-btn").disabled = true;
+                        },
+                        success :  function(data)
+                        {
+                            document.getElementById("notify-btn").style.visibility = "hidden";
+                            $("#notify-btn").html("Değişiklikleri kaydet");
+
+                        }
+                    });
+                    return false;
+                }
+            </script>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mt-0 mb-3 header-title">Bildirimler</h4>
+                        <div class="text-center">
+                            <img src="../assets/images/widgets/notify.svg" alt="" class="mb-3" height="115">
+                        </div>
+                        <form id="notify-form">
+                            <div class="custom-control custom-switch switch-success mb-2">
+                                <input type="checkbox" name="mail" onchange="showButton();" class="custom-control-input" id="ICOnotify">
+                                <label class="custom-control-label" for="ICOnotify">E-Posta ile beni yeniliklerden haberdar et</label>
+                            </div>
+                            <div class="custom-control custom-switch switch-success mb-2">
+                                <input type="checkbox" name="discord" onchange="showButton();" class="custom-control-input" id="notyfySound">
+                                <label class="custom-control-label" for="notyfySound">Discord ile bana bildirim gönder ( Discord bağlantısı gerektirir )</label>
+                            </div>
+                            <button type="button" id="notify-btn" onclick="submitNotifyForm();" style="visibility:hidden;" class="btn btn-secondary btn-sm">Değişiklikleri Kaydet</button>
+                        </form>
+                    </div>
                 </div><!--end card-->
             </div><!--end col-->
+        </div>
 
 
             <div id="uploadimageModal" class="modal" role="dialog">
@@ -106,10 +175,10 @@
                     });
 
                     $('.crop_image').click(function(event){
-                        $image_crop.croppie('result', {
-                            type: 'canvas',
-                            size: 'viewport'
-                        }).then(function(response){
+                            $image_crop.croppie('result', {
+                                type: 'canvas',
+                                size: 'viewport'
+                            }).then(function(response){
                             $.ajax({
                                 url:"{{route('admin.user',$user->id)}}",
                                 type: "PUT",

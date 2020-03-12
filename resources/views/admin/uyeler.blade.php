@@ -27,7 +27,7 @@
                                 <tr id="user{{$user->id}}">
                                     <th>{{$user->id}}</th>
                                     <td>{{$user->email}}</td>
-                                    <td>{{$user->username}}</td>
+                                    <td>{{$user->username}}@if($user->isOnline()) <span class="dot dot-success dot-sm"></span> @endif </td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->roleFormat()}},{{$user->adminFormat()}}</td>
                                     <td>{{$user->created_at}}</td>

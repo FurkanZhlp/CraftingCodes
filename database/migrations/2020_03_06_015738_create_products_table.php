@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->integer('download')->nullable()->default(0);
             $table->integer('ownerid');
+            $table->integer('categoryid');
             $table->string('image');
             $table->longText('desc')->nullable();
             $table->string('slug');

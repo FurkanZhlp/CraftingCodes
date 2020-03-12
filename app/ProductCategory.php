@@ -8,10 +8,10 @@ class ProductCategory extends Model
 {
 
     protected $fillable = [
-        'name', 'slug', 'parent_id'
+        'name', 'slug', 'status','parent_id','priority','color'
     ];
     public function childs()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(ProductCategory::class, 'parent_id', 'id')->orderBy('priority');
     }
 }

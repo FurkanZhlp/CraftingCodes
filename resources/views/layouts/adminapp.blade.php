@@ -21,6 +21,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="{{ url('admin/assets/js/jquery.min.js') }}"></script>
     <script src="{{ url('assets/js/croppie.js') }}"></script>
+    @if(View::hasSection('head'))
+    @yield('head')
+    @endif
 
 </head>
 
@@ -71,12 +74,17 @@
                 <a href="{{route('admin.users')}}"><i class="ti-user"></i><span>Üyeler</span></a>
             </li>
             <li>
-                <a href="javascript: void(0);"><i class="ti-bar-chart"></i><span>Analytics</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
-                <ul class="nav-second-level" aria-expanded="false">
-                    <li class="nav-item"><a class="nav-link" href="../analytics/analytics-index.html"><i class="ti-control-record"></i>Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../analytics/analytics-customers.html"><i class="ti-control-record"></i>Customers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../analytics/analytics-reports.html"><i class="ti-control-record"></i>Reports</a></li>
-                </ul>
+                <a href="{{route('admin.categories')}}"><i class="ti-list"></i><span>Kategoriler</span></a>
+            </li>
+            <li>
+                <a href="{{route('admin.products')}}">
+                    <i class="ti-folder"></i>
+                    <span>Ürünler</span>
+                    @if(\App\Product::all()->count() > 0)
+                    <span class="badge badge-pink float-right mr-2">{{\App\Product::all()->count()}}</span>
+                    <span class="badge badge-soft-success float-right mr-2">Onay</span>
+                    @endif
+                </a>
             </li>
             @endif
         </ul>
