@@ -1,33 +1,21 @@
 @extends('layouts.app')
-@section('title', 'Ana Sayfa')
+@section('title', 'Giriş Yap')
 @section('content')
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="page-title-box">
-                    <div class="float-right">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">MCSepeti</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Ürünler</a></li>
-                            <li class="breadcrumb-item active">Öne Çıkanlar</li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Öne Çıkan Ürünler</h4></div>
-            </div>
-        </div>
+        <div class="row mb-4"></div>
         <div class="row">
             @foreach($products as  $product)
             <div class="col-lg-3 ">
                 <div class="card e-co-product mcs-product-div">
-                    <a href=""><img src="{{$product->image()}}" alt="" class="img-fluid"></a>
+                    <a href="#"><img src="{{$product->image()}}" alt="" class="img-fluid"></a>
                     <div class="card-body product-info">
                         <div style="max-height: 43px;height: 43px;overflow: hidden;">
-                            <a class="product-title">{{$product->name}}</a>
+                            <a href="#" class="product-title">{{$product->name}}</a>
                         </div>
                         <div>
                             <div style="display:flex;margin-top:5px;">
-                                <img src="{{$product->owner->userImage()}}" alt="" class="thumb-sm rounded-circle mr-2">
+                                <a href="{{$product->owner->profile()}}"><img src="{{$product->owner->userImage()}}" alt="" class="thumb-sm rounded-circle mr-2"></a>
                                 <div style="">
-                                    <b>{{$product->owner->username}}</b>
+                                    <b><a href="{{$product->owner->profile()}}">{{$product->owner->username}}</a></b>
                                     <p style="margin-bottom:0px;">{{$product->category->name}}</p>
                                 </div>
                             </div>

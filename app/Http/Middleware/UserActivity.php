@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use Cache;
 use Carbon\Carbon;
 
 class UserActivity
@@ -20,8 +19,6 @@ class UserActivity
     {
         if(Auth::guard($guard)->check())
         {
-            $expiresAt = Carbon::now()->addMinutes(2);
-            Cache::put('user-online-'.Auth::user()->id,true,$expiresAt);
             $user = Auth::user();
             $user["last_seen"] = time();
             $user->save();

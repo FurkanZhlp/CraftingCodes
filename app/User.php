@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Cache;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,7 +38,8 @@ class User extends Authenticatable
     ];
     public function isOnline()
     {
-        return Cache::has('user-online-'.$this->id);
+        if($this->last_seen >= time()-120) return true;
+        return false;
     }
     public function lastSeen()
     {
@@ -84,6 +84,10 @@ class User extends Authenticatable
             $show .= substr($n,0,2)." ";
         }
         return $show;
+    }
+    public function profile()
+    {
+        return route('profile',$this->username);
     }
     public function userImage()
     {
