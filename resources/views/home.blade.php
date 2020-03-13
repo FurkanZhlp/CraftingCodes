@@ -4,7 +4,7 @@
         <div class="row mb-4"></div>
         <div class="row">
             @foreach($products as  $product)
-            <div class="col-lg-3 ">
+            <div class="col-lg-3 col-sm-6">
                 <div class="card e-co-product mcs-product-div">
                     <a href="#"><img src="{{$product->image()}}" alt="" class="img-fluid"></a>
                     <div class="card-body product-info">

@@ -88,6 +88,12 @@
                             <span><i class="em em-feet"></i> Profil Ziyareti</span>
                             <span>{{$user->profile_view}}</span>
                         </li>
+                        @if($user->role == 1)
+                        <li>
+                            <span><i class="em em-handshake"></i> Ticaret Puanı</span>
+                            <span>{{$user->ticaretPuani()}}</span>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>

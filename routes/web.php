@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index');
 Route::get('/anasayfa', 'HomeController@index')->name('home');
 Route::get('/profil/{username?}', 'UserController@index')->name('profile');
+Route::get('/sohbet/{username}', 'ChatController@index')->name('chat');
 
 
 Route::group(['prefix' => 'admin',  'middleware' => 'role'], function(){

@@ -102,4 +102,8 @@ class User extends Authenticatable
     {
         return '<a href="#">@'.$this->username.'</a>';
     }
+    public function ticaretPuani()
+    {
+        return 0;
+    }
 }
