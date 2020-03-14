@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Message;
+use App\Conversation;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -105,5 +108,25 @@ class User extends Authenticatable
     public function ticaretPuani()
     {
         return 0;
+    }
+    public function conversations()
+    {
+        return Conversation::where('user_one','=',$this->id)->orWhere('user_two','=',$this->id)->orderBy('updated_at','desc')->get();
+        /*$c = Message::select(DB::raw('LEAST(user_id, recipient_to) as user_id,GREATEST(user_id, recipient_to) AS recipient_to,MAX(id) AS max_id,users.*'))
+            ->where('user_id','=',$this->id)
+            ->join('users')
+            ->orWhere('recipient_to','=',$this->id)->groupBy(DB::raw('LEAST(user_id, recipient_to),
+							GREATEST(user_id, recipient_to)'))->get();
+        return $c;*/
+    }
+    public function conversationsList()
+    {
+        return Conversation::select('id')->where('user_one','=',$this->id)->orWhere('user_two','=',$this->id)->get()->toArray();
+        /*$c = Message::select(DB::raw('LEAST(user_id, recipient_to) as user_id,GREATEST(user_id, recipient_to) AS recipient_to,MAX(id) AS max_id,users.*'))
+            ->where('user_id','=',$this->id)
+            ->join('users')
+            ->orWhere('recipient_to','=',$this->id)->groupBy(DB::raw('LEAST(user_id, recipient_to),
+							GREATEST(user_id, recipient_to)'))->get();
+        return $c;*/
     }
 }

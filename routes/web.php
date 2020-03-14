@@ -14,7 +14,8 @@
 Route::get('/', 'HomeController@index');
 Route::get('/anasayfa', 'HomeController@index')->name('home');
 Route::get('/profil/{username?}', 'UserController@index')->name('profile');
-Route::get('/sohbet/{username}', 'ChatController@index')->name('chat');
+Route::get('/sohbet/{username?}', 'ChatController@index')->name('chat');
+Route::post('/sohbet/{username}', 'ChatController@index');
 
 
 Route::group(['prefix' => 'admin',  'middleware' => 'role'], function(){

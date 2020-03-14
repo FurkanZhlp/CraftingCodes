@@ -48,6 +48,15 @@
         <!--end logo-->
         <ul class="list-unstyled topbar-nav float-right mb-0">
             @auth
+                <li class="notification-list">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user"
+                       href="{{route('chat')}}" >
+                        <i class="dripicons-conversation noti-icon"></i>
+                        @if(App\Message::unreadedConversations()->count() )
+                        <span class="badge badge-danger badge-pill noti-icon-badge">{{ App\Message::unreadedConversations()->count() }}</span>
+                        @endif
+                    </a>
+                </li>
                 <li class="dropdown notification-list">
                     <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
                        href="#" role="button"

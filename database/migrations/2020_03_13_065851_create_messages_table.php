@@ -15,9 +15,12 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('message');
+            $table->boolean('is_seen')->default(0);
+            $table->boolean('deleted_from_sender')->default(0);
+            $table->boolean('deleted_from_receiver')->default(0);
             $table->integer('user_id');
-            $table->integer('recipient_to');
-            $table->string('message');
+            $table->integer('conversation_id');
             $table->timestamps();
         });
     }

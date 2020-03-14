@@ -32,6 +32,34 @@
             right:0px;
             content: ":";
         }
+        .userBanner {
+            display:inline;
+            margin-top: 4px;
+        }.userBanner.yoneticitag {
+             color: white;
+                     background-image: linear-gradient(45deg, #e91e63, #ff5722) !important;
+             font-size: 80%;
+             font-size: 11px;
+             font-style: normal;
+             clip-path: polygon(7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%, 0 50%, 7% 0);
+             padding: 6px 20px;
+             border: 0px solid transparent;
+             border-radius: 20px 20px 20px 20px;
+             letter-spacing: 0.5px;
+             text-align: center;
+         }.userBanner.saticitag {
+             color: white;
+             background-image: linear-gradient(45deg, #f60, #ff8533) !important;
+             font-size: 80%;
+             font-size: 11px;
+             font-style: normal;
+             clip-path: polygon(7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%, 0 50%, 7% 0);
+             padding: 6px 20px;
+             border: 0px solid transparent;
+             border-radius: 20px 20px 20px 20px;
+             letter-spacing: 0.5px;
+             text-align: center;
+         }
     </style>
     <div class="card-body  met-pro-bg"  style="background-image: url(https://cdn.r10.net/kapaklar/106190-1583124594.jpg);">
         <div class="met-profile">
@@ -48,6 +76,14 @@
                         </div>
                         <div class="met-profile_user-detail">
                             <h5 class="met-user-name">{{$user->username}}</h5>
+                            <p class="mb-0 met-user-name-post">
+                            @if($user->admin)
+                            <div class="userBanner yoneticitag"><span class="userBanner-before"></span><strong>MCSepeti.com</strong></div>
+                            @endif
+                            @if($user->admin)
+                            <div class="userBanner saticitag"><span class="userBanner-before"></span><strong>Onaylanmış Satıcı</strong></div>
+                            @endif
+                            </p>
                         </div>
                     </div>
                 </div><!--end col-->
@@ -63,8 +99,8 @@
                         Profil Ayarlarım
                     </a>
                 @else
-                <a href="#" class="btn btn-outline-dark btn-block rounded-0">
-                    <i class="em em-mail"></i>
+                <a href="{{route('chat',$user->username)}}" class="btn btn-outline-dark btn-block rounded-0">
+                    <i class="em em-left_speech_bubble"></i>
                     Özel Mesaj Gönder
                 </a>
                 @endif

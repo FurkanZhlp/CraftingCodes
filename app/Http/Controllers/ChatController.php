@@ -8,40 +8,56 @@ use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Message;
+use App\Conversation;
 use Carbon\Carbon;
 
 class ChatController extends Controller
 {
-    public function index($chatWith)
+    public function index($chatWith = null , Request $request)
     {
-        $conversations = DB::select('
-            SELECT t1.*,t3.username
-            FROM messages AS t1
-            LEFT OUTER JOIN users t3 ON t3.id
-            INNER JOIN
-            (
-                SELECT
-                    LEAST(user_id, recipient_to) AS user_id,
-                    GREATEST(user_id, recipient_to) AS recipient_to,
-                    MAX(id) AS max_id,
-                FROM messages
-                GROUP BY
-                    LEAST(user_id, recipient_to),
-                    GREATEST(user_id, recipient_to)
-            ) AS t2
-                ON LEAST(t1.user_id, t1.recipient_to) = t2.user_id AND
-                   GREATEST(t1.user_id, t1.recipient_to) = t2.recipient_to AND
-                   t1.id = t2.max_id
-                WHERE t1.user_id = ? OR t1.recipient_to = ?
-            ',[Auth::user()->id, Auth::user()->id]);
-        $data["conversations"] = $conversations;
-        $agent = new Agent();
-        if ( $agent->isMobile() ) {
-            return view('user.chat_mobile');
+        if($request->isMethod('get')) {
+            $data["conversations"] = Auth::user()->conversations();
+            if ($chatWith) {
+                if (Auth::user()->username == $chatWith) return redirect(route('chat'));
+                $user = User::where('username', '=', $chatWith)->first();
+                if (!$user) return redirect(route('chat'));
+                $data["chatUser"] = $user;
+                $chat = Conversation::bul($user->id, Auth::user()->id);
+                if($chat) $chat->readMessages();
+                $data["chat"] = $chat;
+            }
+            $data["conversations"] = Auth::user()->conversations();
+            $agent = new Agent();
+            if ($agent->isMobile()) {
+                return view('user.chat_mobile');
+            } else {
+                return view('user.chat')->with($data);
+            }
         }
-        else
+        elseif($request->isMethod('post'))
         {
-            return view('user.chat')->with($data);
+            if (Auth::user()->username == $chatWith) return json_encode(["status"=>false]);
+            $user = User::where('username', '=', $chatWith)->first();
+            if (!$user) return json_encode(["status"=>false]);
+            $chat = Conversation::bul($user->id, Auth::user()->id);
+            if(!$chat)
+            {
+                $chat = new Conversation;
+                $chat->user_one = Auth::user()->id;
+                $chat->user_two = $user->id;
+                $chat->status = 1;
+                $chat->save();
+            }
+            if (!$request->message) return json_encode(["status2"=>false]);
+            $message = new Message;
+            $message->message = $request->message;
+            $message->user_id = Auth::user()->id;
+            $message->conversation_id = $chat->id;
+            $message->is_seen = 0;
+            $message->save();
+            $chat->touch();
+            return json_encode(["status"=>true]);
         }
     }
 }
